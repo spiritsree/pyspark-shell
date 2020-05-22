@@ -19,6 +19,7 @@ This will give a spark shell to work on.
 
 ```
 ###########################################################
+#                     Spark 2.4.5                         #
 #                                                         #
 #      Spark session can be accessed using "SPARK"        #
 #                                                         #
@@ -40,7 +41,7 @@ $ docker run --rm -ti --name pyspark-shell \
 
 For changing log level pass the env variable as follows
 
-# Custom log levels
+## Custom log levels
 
 ```
 $ docker run --rm -ti --name pyspark-shell \
