@@ -127,3 +127,11 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# OSX garbage
+.DS_Store
+.idea
+*.swp
+temp*
+*/temp*
+*/*/temp*
