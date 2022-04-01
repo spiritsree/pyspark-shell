@@ -19,7 +19,7 @@ This will give a spark shell to work on.
 
 ```
 ###########################################################
-#                     Spark 2.4.5                         #
+#                     Spark 3.2.1                         #
 #                                                         #
 #      Spark session can be accessed using "SPARK"        #
 #                                                         #
@@ -51,6 +51,15 @@ $ docker run --rm -ti --name pyspark-shell \
 ```
 
 Supported log levels are `all`, `debug`, `error`, `fatal`, `trace`, `warn`, `info`, `off`.
+
+## ORC file type
+
+```
+$ docker run --rm -ti --name pyspark-shell \
+             -v /locat/dir:/data \
+             -e FILE_TYPE=orc \
+             spiritsree/pyspark-shell:latest
+```
 
 ## Common Spark Dataframe Functions
 
@@ -120,4 +129,5 @@ only showing top 2 rows
 
 ## Reference
 
-[Pyspark SQL Module](https://spark.apache.org/docs/latest/api/python/pyspark.sql.html)
+* [Apache Spark](https://github.com/apache/spark)
+* [Pyspark API reference](https://spark.apache.org/docs/latest/api/python/reference/index.html)

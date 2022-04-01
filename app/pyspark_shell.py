@@ -1,3 +1,7 @@
+'''
+Pyspark shell with loaded files based on the type
+Default: csv
+'''
 import sys
 import os
 import re
@@ -20,6 +24,7 @@ class ConfigContext:
         Initialize global configs.
         '''
         self.log_level = self.environ_or_default('LOG_LEVEL', 'info')
+        self.file_type = self.environ_or_default('FILE_TYPE', 'csv')
 
     @classmethod
     def environ_or_default(cls, env, default):
@@ -41,8 +46,12 @@ files_to_load = []
 
 for path, subdirs, files in os.walk(data_dir):
     for f_name in files:
-        if re.match(r'.*?\.csv$', f_name):
-            files_to_load.append(os.path.join(path, f_name))
+        if CONFIG.file_type == 'csv':
+            if re.match(r'.*?\.csv$', f_name):
+                files_to_load.append(os.path.join(path, f_name))
+        elif CONFIG.file_type == 'orc':
+            if re.match(r'.*?\.orc$', f_name):
+                files_to_load.append(os.path.join(path, f_name))
 
 if not files_to_load:
     print('')
@@ -56,13 +65,15 @@ if not files_to_load:
     print('')
     print('')
 else:
-    DF = SPARK.read.csv(files_to_load,
+    if CONFIG.file_type == 'csv':
+        DF = SPARK.read.csv(files_to_load,
                                 header=True,
                                 quote='"',
                                 escape='"',
                                 mode="FAILFAST",
                                 multiLine=True)
-
+    elif CONFIG.file_type == 'orc':
+        DF = SPARK.read.orc(files_to_load)
     print('')
     print('')
     print('###########################################################')
