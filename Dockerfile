@@ -1,10 +1,10 @@
-FROM alpine:3.10
+FROM alpine:3.15
 
 ADD ./install /install
 
 RUN apk update --no-cache > /dev/null \
     && echo "**** install packages ****" \
-    && apk add --no-cache curl tar bash openjdk8 python3 py3-pip > /dev/null \
+    && apk add --no-cache curl tar bash openjdk15 python3 py3-pip > /dev/null \
     && pip3 install --upgrade pip > /dev/null \
     && pip3 install -r /install/requirements.txt > /dev/null \
     && bash /install/install-app.sh \
@@ -17,4 +17,4 @@ ADD ./app /app
 
 VOLUME /data
 
-CMD ["python", "-i", "/app/pyspark-shell.py"]
+CMD ["python", "-i", "/app/pyspark_shell.py"]
