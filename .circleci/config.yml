@@ -1,0 +1,120 @@
+# Use the latest 2.1 version of CircleCI pipeline process engine. See: https://circleci.com/docs/2.0/configuration-reference
+version: 2.1
+
+# Defaults
+defaults: &workdirAndImage
+  working_directory: ~/workspace
+
+executors:
+  docker-executor:
+    docker:
+      - image: circleci/buildpack-deps:bionic
+
+# Orchestrate or schedule a set of jobs
+workflows:
+  # Docker image build workflow
+  test-build:
+    # Run the build job
+    jobs:
+      - checkout-code:
+          filters:
+            branches:
+              only:
+                - master
+                - develop
+      - test:
+          requires:
+            - checkout-code
+          filters:
+            branches:
+              only:
+                - master
+                - develop
+      - build-and-push-docker:
+          requires:
+            - test
+          filters:
+            branches:
+              ignore: /.*/
+
+  docker-image-build:
+    # Run the build job
+    jobs:
+      - checkout-code:
+          filters:
+            tags:
+              only: /.*/
+            branches:
+              ignore: /.*/
+      - test:
+          requires:
+            - checkout-code
+          filters:
+            tags:
+              only: /.*/
+            branches:
+              ignore: /.*/
+      - build-and-push-docker:
+          requires:
+            - test
+          filters:
+            tags:
+              only: /.*/
+            branches:
+              ignore: /.*/
+
+
+jobs:
+  checkout-code:
+    executor: docker-executor
+    resource_class: small
+    steps:
+      - checkout:
+          path: ~/workspace/repo
+      - persist_to_workspace:
+          root: ~/workspace
+          paths:
+            - repo/
+
+  test:
+    docker:
+      - image: cimg/python:3.10.1
+    executor: docker-executor
+    resource_class: small
+    working_directory: ~/workspace/repo
+    steps:
+      - attach_workspace:
+          at: ~/workspace
+      - run:
+          name: Run tests
+          command: |
+            echo "Running tests";
+            pip install pylint;
+            find . -type f -regex ".*\.py" | xargs pylint
+          when: always
+
+  build-and-push-docker:
+    docker:
+      - image: cimg/base:stable
+    working_directory: ~/workspace/repo
+    environment:
+      DOCKER_IMAGE_NAME: spiritsree/pyspark-shell
+      DOCKER_TAG: ''
+    steps:
+      - attach_workspace:
+          at: ~/workspace
+      - setup_remote_docker:
+          version: 20.10.11
+      - run:
+          name: Docker Image Build And Push (multi-arch)
+          command: |
+            echo "Tag for the build is  << pipeline.git.tag >>"
+            DOCKER_TAG=$(echo "<< pipeline.git.tag >>" | sed -E 's/.*?(v[0-9.]+)$/\1/')
+            export DOCKER_TAG
+            if [[ -n "$DOCKER_TAG" ]]; then
+              echo $DOCKER_CLOUD_PASS | base64 --decode | docker login -u $DOCKER_CLOUD_USER --password-stdin
+              docker buildx build --platform linux/arm64,linux/amd64 --push -t $DOCKER_IMAGE_NAME:$DOCKER_TAG -f Dockerfile .
+              docker logout
+            else
+              echo "Not a tagged build..."
+            fi
