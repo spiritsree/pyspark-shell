@@ -113,11 +113,10 @@ jobs:
             export DOCKER_TAG
             if [[ -n "$DOCKER_TAG" ]]; then
               echo $DOCKER_CLOUD_PASS | base64 --decode | docker login -u $DOCKER_CLOUD_USER --password-stdin
-              docker context create spiritsree_multiarch
-              docker buildx create --platform linux/arm64,linux/amd64 --name spiritsree_multiarch --use spiritsree_multiarch
+              docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
+              docker buildx create --platform linux/arm64,linux/amd64 --name spiritsree_multiarch --driver docker-container --use
               docker buildx build --platform linux/arm64,linux/amd64 --push -t $DOCKER_IMAGE_NAME:$DOCKER_TAG -f Dockerfile .
               docker buildx rm spiritsree_multiarch
-              docker context rm spiritsree_multiarch
               docker logout
             else
               echo "Not a tagged build..."
