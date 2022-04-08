@@ -67,7 +67,7 @@ def read_files(data_dir, file_type):
 CONFIG = ConfigContext()
 SPARK_CONTEXT = SparkContext('local')
 SPARK_CONTEXT.setLogLevel(CONFIG.log_level.upper())
-SPARK = SparkSession(SPARK_CONTEXT)
+SPARK = SparkSession(SPARK_CONTEXT) # pylint: disable=undefined-variable
 
 def main():
     '''
