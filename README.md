@@ -52,12 +52,17 @@ $ docker run --rm -ti --name pyspark-shell \
 
 Supported log levels are `all`, `debug`, `error`, `fatal`, `trace`, `warn`, `info`, `off`.
 
-## ORC file type
+## ORC/Parquet file type
 
 ```
 $ docker run --rm -ti --name pyspark-shell \
              -v /locat/dir:/data \
              -e FILE_TYPE=orc \
+             spiritsree/pyspark-shell:latest
+
+$ docker run --rm -ti --name pyspark-shell \
+             -v /locat/dir:/data \
+             -e FILE_TYPE=parquet \
              spiritsree/pyspark-shell:latest
 ```
 
