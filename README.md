@@ -1,8 +1,9 @@
 # Pyspark Shell
 
-[![Docker Cloud Build Status](https://img.shields.io/docker/cloud/build/spiritsree/pyspark-shell)](https://hub.docker.com/r/spiritsree/pyspark-shell)
+[![CircleCI](https://circleci.com/gh/spiritsree/pyspark-shell.svg?style=svg&circle-token=9fb56d8d537cccf949a72919ee51b9508d3731e5)](https://app.circleci.com/pipelines/github/spiritsree/pyspark-shell)
 [![Docker Pulls](https://img.shields.io/docker/pulls/spiritsree/pyspark-shell)](https://hub.docker.com/r/spiritsree/pyspark-shell/tags)
 [![GitHub tag (latest SemVer)](https://img.shields.io/github/v/tag/spiritsree/pyspark-shell?sort=semver)](https://hub.docker.com/r/spiritsree/pyspark-shell)
+[![License](https://img.shields.io/badge/license-GPL-blue.svg)](https://github.com/spiritsree/docker-torrent-client/blob/master/LICENSE.md)
 
 An interactive pyspark-shell in docker
 
