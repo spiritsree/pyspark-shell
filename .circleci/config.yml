@@ -113,7 +113,9 @@ jobs:
             export DOCKER_TAG
             if [[ -n "$DOCKER_TAG" ]]; then
               echo $DOCKER_CLOUD_PASS | base64 --decode | docker login -u $DOCKER_CLOUD_USER --password-stdin
+              docker buildx create --platform linux/arm64,linux/amd64 --name spiritsree_multiarch --use
               docker buildx build --platform linux/arm64,linux/amd64 --push -t $DOCKER_IMAGE_NAME:$DOCKER_TAG -f Dockerfile .
+              docker buildx rm spiritsree_multiarch
               docker logout
             else
               echo "Not a tagged build..."
