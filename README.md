@@ -2,8 +2,9 @@
 
 [![CircleCI](https://circleci.com/gh/spiritsree/pyspark-shell.svg?style=svg&circle-token=9fb56d8d537cccf949a72919ee51b9508d3731e5)](https://app.circleci.com/pipelines/github/spiritsree/pyspark-shell)
 [![Docker Pulls](https://img.shields.io/docker/pulls/spiritsree/pyspark-shell)](https://hub.docker.com/r/spiritsree/pyspark-shell/tags)
-[![GitHub tag (latest SemVer)](https://img.shields.io/github/v/tag/spiritsree/pyspark-shell?sort=semver)](https://hub.docker.com/r/spiritsree/pyspark-shell)
-[![License](https://img.shields.io/badge/license-GPL-blue.svg)](https://github.com/spiritsree/docker-torrent-client/blob/master/LICENSE.md)
+[![GitHub tag (latest SemVer)](https://img.shields.io/github/v/tag/spiritsree/pyspark-shell?sort=semver&style=plastic&color=blue)](https://hub.docker.com/r/spiritsree/pyspark-shell)
+[![License](https://img.shields.io/badge/license-GPLv3.0-blue.svg)](https://github.com/spiritsree/pyspark-shell/blob/master/LICENSE.md)
+[![license][license-badge]][license]
 
 An interactive pyspark-shell in docker
 
@@ -13,7 +14,7 @@ You can run this by just running the following
 
 ```
 $ docker run --rm -ti --name pyspark-shell \
-             spiritsree/pyspark-shell:latest
+             spiritsree/pyspark-shell:<latest-tag>
 ```
 
 This will give a spark shell to work on.
@@ -37,7 +38,7 @@ For loading csv to work on mount the directory containing CSV files as `/data`
 ```
 $ docker run --rm -ti --name pyspark-shell \
              -v /locat/dir:/data \
-             spiritsree/pyspark-shell:latest
+             spiritsree/pyspark-shell:<latest-tag>
 ```
 
 For changing log level pass the env variable as follows
@@ -48,7 +49,7 @@ For changing log level pass the env variable as follows
 $ docker run --rm -ti --name pyspark-shell \
              -v /locat/dir:/data \
              -e LOG_LEVEL=debug \
-             spiritsree/pyspark-shell:latest
+             spiritsree/pyspark-shell:<latest-tag>
 ```
 
 Supported log levels are `all`, `debug`, `error`, `fatal`, `trace`, `warn`, `info`, `off`.
@@ -59,12 +60,12 @@ Supported log levels are `all`, `debug`, `error`, `fatal`, `trace`, `warn`, `inf
 $ docker run --rm -ti --name pyspark-shell \
              -v /locat/dir:/data \
              -e FILE_TYPE=orc \
-             spiritsree/pyspark-shell:latest
+             spiritsree/pyspark-shell:<latest-tag>
 
 $ docker run --rm -ti --name pyspark-shell \
              -v /locat/dir:/data \
              -e FILE_TYPE=parquet \
-             spiritsree/pyspark-shell:latest
+             spiritsree/pyspark-shell:<latest-tag>
 ```
 
 ## Common Spark Dataframe Functions
